@@ -1,7 +1,2473 @@
-ё!"34567890-	йцукенгшщзхъ\ФЫВАПРОЛДЖЭ
-яЧСМИТЬБЮ.6dce8e28-f25c-40b2-8270-5a63d7465c4a        
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cocoOS — Windows 11 with CocoNet Browser</title>
+    <style>
+        /* ============================================
+           WINDOWS 11 ULTIMATE — ПОЛНОСТЬЮ РАБОЧАЯ ВЕРСИЯ
+           ============================================ */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
 
+        :root {
+            --win-bg: #1c1c1c;
+            --win-card: #2d2d2d;
+            --win-card-light: #3d3d3d;
+            --win-text: #ffffff;
+            --win-text-secondary: #9d9d9d;
+            --win-accent: #0078d4;
+            --win-accent-light: #4fa8e0;
+            --win-accent-dark: #005a9e;
+            --win-accent-soft: rgba(0, 120, 212, 0.1);
+            --win-accent-glow: rgba(0, 120, 212, 0.3);
+            --win-border: #454545;
+            --win-border-light: #5a5a5a;
+            --win-hover: rgba(255, 255, 255, 0.1);
+            --win-selection: rgba(0, 120, 212, 0.3);
+            --win-shadow: rgba(0, 0, 0, 0.3);
+            --win-shadow-strong: rgba(0, 0, 0, 0.5);
+            --win-green: #1fb841;
+            --win-red: #e81123;
+            --win-yellow: #ffb900;
+            
+            --taskbar-height: 48px;
+            --transition: 0.2s ease;
+        }
 
-\C:\Program Files\BellSoft\LibericaJDK-11\bin\java.exe" -jar "C:\Users\user\Downloads\Cristalix.jar\\
-"C:\Users\user\Downloads\Cristalix.jar"
-"C:\Program Files\BellSoft\LibericaJDK-11\bin\java.exe" -jar Cristalix.jar
+        body {
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            font-family: 'Segoe UI', 'SF Pro Display', -apple-system, sans-serif;
+            background: var(--win-bg);
+            color: var(--win-text);
+        }
+
+        /* ===== СИНЕЕ ВЫДЕЛЕНИЕ ===== */
+        ::selection {
+            background: var(--win-accent);
+            color: white;
+        }
+
+        /* ===== ЭКРАН ВХОДА ===== */
+        .login-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 0.3s ease;
+        }
+
+        .login-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .login-container {
+            text-align: center;
+            width: 400px;
+        }
+
+        .login-logo {
+            font-size: 80px;
+            margin-bottom: 30px;
+            filter: drop-shadow(0 0 30px var(--win-accent));
+        }
+
+        .login-title {
+            font-size: 36px;
+            font-weight: 300;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .login-box {
+            background: rgba(45, 45, 45, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid var(--win-border);
+        }
+
+        .user-avatar {
+            width: 100px;
+            height: 100px;
+            background: var(--win-accent);
+            border-radius: 50px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            border: 3px solid white;
+        }
+
+        .user-name {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        .login-button {
+            width: 100%;
+            height: 50px;
+            background: var(--win-accent);
+            border: none;
+            border-radius: 25px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .login-button:hover {
+            background: var(--win-accent-light);
+            transform: scale(1.02);
+            box-shadow: 0 0 20px var(--win-accent-glow);
+        }
+
+        .login-hint {
+            margin-top: 20px;
+            color: var(--win-text-secondary);
+            font-size: 14px;
+        }
+
+        /* ===== РАБОЧИЙ СТОЛ ===== */
+        .desktop {
+            height: 100%;
+            width: 100%;
+            position: relative;
+            background: var(--win-bg);
+            overflow: hidden;
+        }
+
+        .wallpaper-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-size: cover;
+            background-position: center;
+            transition: all 0.3s ease;
+            z-index: 0;
+        }
+
+        .wallpaper-layer.blurred {
+            filter: blur(8px) brightness(0.7);
+        }
+
+        .main-wallpaper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* ===== ИКОНКИ РАБОЧЕГО СТОЛА ===== */
+        .desktop-icons {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: grid;
+            grid-template-columns: repeat(4, 90px);
+            gap: 15px;
+            z-index: 10;
+        }
+
+        .desktop-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .desktop-icon:hover {
+            background: var(--win-hover);
+            transform: scale(1.05);
+            border-color: var(--win-accent);
+        }
+
+        .desktop-icon.selected {
+            background: var(--win-selection);
+            border: 2px solid var(--win-accent);
+            box-shadow: 0 0 15px var(--win-accent-glow);
+        }
+
+        .desktop-icon .icon {
+            font-size: 40px;
+            margin-bottom: 6px;
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3));
+        }
+
+        .desktop-icon .label {
+            font-size: 12px;
+            color: white;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+            font-weight: 500;
+            text-align: center;
+        }
+
+        /* ===== ПРЯМОУГОЛЬНИК ВЫДЕЛЕНИЯ ===== */
+        #selectionRect {
+            position: absolute;
+            border: 2px solid var(--win-accent);
+            background: rgba(0, 120, 212, 0.1);
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* ===== ПАНЕЛЬ ЗАДАЧ ===== */
+        .windows-taskbar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: var(--taskbar-height);
+            background: rgba(32, 32, 32, 0.95);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            z-index: 100;
+            border-top: 1px solid var(--win-border);
+        }
+
+        .start-button {
+            width: 40px;
+            height: 40px;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .start-button:hover {
+            background: var(--win-hover);
+        }
+
+        .taskbar-search {
+            width: 300px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 18px;
+            margin: 0 15px;
+            padding: 0 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--win-text-secondary);
+            border: 1px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .taskbar-search:hover {
+            border-color: var(--win-accent);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .taskbar-search input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: white;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .taskbar-search input::placeholder {
+            color: var(--win-text-secondary);
+        }
+
+        .taskbar-icons {
+            display: flex;
+            gap: 5px;
+            margin: 0 10px;
+        }
+
+        .taskbar-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .taskbar-icon:hover {
+            background: var(--win-hover);
+        }
+
+        .taskbar-icon.active {
+            color: var(--win-accent);
+        }
+
+        .taskbar-icon.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            width: 4px;
+            height: 4px;
+            background: var(--win-accent);
+            border-radius: 2px;
+        }
+
+        .taskbar-windows {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            height: 100%;
+        }
+
+        .taskbar-window {
+            min-width: 140px;
+            height: 36px;
+            padding: 0 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .taskbar-window:hover {
+            background: var(--win-hover);
+            border-color: var(--win-accent);
+        }
+
+        .taskbar-window.active {
+            background: var(--win-accent);
+            border: none;
+        }
+
+        .system-tray {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: white;
+            padding: 0 10px;
+            border-left: 1px solid var(--win-border);
+            height: 100%;
+        }
+
+        .tray-item {
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 5px;
+            transition: background 0.2s;
+        }
+
+        .tray-item:hover {
+            background: var(--win-hover);
+        }
+
+        /* ===== СТАРТОВОЕ МЕНЮ ===== */
+        .start-menu {
+            position: fixed;
+            bottom: 60px;
+            left: 20px;
+            width: 400px;
+            background: rgba(45, 45, 45, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            border: 1px solid var(--win-border);
+            box-shadow: 0 20px 40px var(--win-shadow-strong);
+            display: none;
+            z-index: 2000;
+            padding: 20px;
+        }
+
+        .start-menu.visible {
+            display: block;
+            animation: startOpen 0.2s ease;
+        }
+
+        @keyframes startOpen {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .start-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--win-border);
+            margin-bottom: 20px;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            background: var(--win-accent);
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .user-info {
+            flex: 1;
+        }
+
+        .user-name {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .user-email {
+            font-size: 12px;
+            color: var(--win-text-secondary);
+        }
+
+        .start-apps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .start-app {
+            padding: 15px;
+            text-align: center;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .start-app:hover {
+            background: var(--win-hover);
+            transform: scale(1.05);
+        }
+
+        .start-app-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .start-app-name {
+            font-size: 12px;
+        }
+
+        .start-footer {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--win-border);
+        }
+
+        .start-footer button {
+            flex: 1;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--win-border);
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .start-footer button:hover {
+            background: var(--win-accent);
+        }
+
+        /* ===== ОКНА ===== */
+        .window {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            min-width: 700px;
+            min-height: 450px;
+            background: var(--win-card);
+            border-radius: 12px;
+            box-shadow: 0 20px 50px var(--win-shadow-strong);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 1000;
+            border: 1px solid var(--win-border);
+            animation: windowOpen 0.2s;
+        }
+
+        @keyframes windowOpen {
+            from { transform: translate(-50%, -50%) scale(0.95); opacity: 0; }
+            to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        .window.active {
+            display: flex;
+        }
+
+        .window.maximized {
+            width: 100% !important;
+            height: calc(100% - var(--taskbar-height)) !important;
+            top: 0 !important;
+            left: 0 !important;
+            transform: none;
+            border-radius: 0;
+        }
+
+        .window-header {
+            height: 48px;
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
+            background: var(--win-card-light);
+            border-bottom: 1px solid var(--win-border);
+            cursor: move;
+        }
+
+        .window-title {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .window-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .window-control {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: transparent;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: var(--win-text);
+        }
+
+        .window-control:hover {
+            background: var(--win-hover);
+        }
+
+        .window-control.close:hover {
+            background: var(--win-red);
+            color: white;
+        }
+
+        .window-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: var(--win-card);
+        }
+
+        /* ===== БРАУЗЕР COCONET ===== */
+        .browser-toolbar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: var(--win-card-light);
+            border-radius: 8px;
+            border: 1px solid var(--win-border);
+        }
+
+        .browser-btn {
+            width: 36px;
+            height: 36px;
+            border: 1px solid var(--win-border);
+            background: var(--win-card);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--win-text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .browser-btn:hover {
+            background: var(--win-accent);
+            border-color: var(--win-accent);
+        }
+
+        .url-bar {
+            flex: 1;
+            height: 36px;
+            padding: 0 12px;
+            border: 1px solid var(--win-border);
+            background: var(--win-card);
+            border-radius: 6px;
+            color: var(--win-text);
+            font-size: 14px;
+            outline: none;
+        }
+
+        .url-bar:focus {
+            border-color: var(--win-accent);
+            box-shadow: 0 0 0 2px var(--win-accent-glow);
+        }
+
+        .browser-frame {
+            flex: 1;
+            border: 1px solid var(--win-border);
+            border-radius: 8px;
+            overflow: hidden;
+            background: white;
+        }
+
+        .browser-frame iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* ===== ТЕРМИНАЛ ===== */
+        .terminal {
+            height: 100%;
+            background: #1e1e1e;
+            border-radius: 8px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            color: #00ff00;
+            overflow-y: auto;
+        }
+
+        .terminal-line {
+            margin-bottom: 5px;
+            white-space: pre-wrap;
+        }
+
+        .terminal-input-line {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .terminal-prompt {
+            color: #00ff00;
+        }
+
+        .terminal-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            outline: none;
+            font-size: 14px;
+        }
+
+        /* ===== НАСТРОЙКИ WINDOWS ===== */
+        .settings-container {
+            display: flex;
+            gap: 20px;
+            height: 100%;
+        }
+
+        .settings-sidebar {
+            width: 200px;
+            background: var(--win-card-light);
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .settings-category {
+            padding: 12px 15px;
+            margin-bottom: 5px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .settings-category:hover {
+            background: var(--win-hover);
+        }
+
+        .settings-category.active {
+            background: var(--win-accent);
+            color: white;
+        }
+
+        .settings-content {
+            flex: 1;
+            background: var(--win-card-light);
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .settings-group {
+            margin-bottom: 30px;
+        }
+
+        .settings-title {
+            font-size: 14px;
+            color: var(--win-text-secondary);
+            margin-bottom: 15px;
+        }
+
+        .settings-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--win-border);
+        }
+
+        .toggle-switch {
+            width: 48px;
+            height: 24px;
+            background: var(--win-border);
+            border-radius: 12px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .toggle-switch.active {
+            background: var(--win-accent);
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 10px;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.2s;
+        }
+
+        .toggle-switch.active::after {
+            transform: translateX(24px);
+        }
+
+        .slider {
+            width: 200px;
+            height: 4px;
+            background: var(--win-border);
+            border-radius: 2px;
+            position: relative;
+        }
+
+        .slider-fill {
+            width: 70%;
+            height: 100%;
+            background: var(--win-accent);
+            border-radius: 2px;
+        }
+
+        /* ===== МЕССЕНДЖЕР ===== */
+        .messenger-container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .messenger-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            display: flex;
+            gap: 10px;
+            animation: messageSlide 0.3s;
+        }
+
+        .message.own {
+            flex-direction: row-reverse;
+        }
+
+        .message-bubble {
+            max-width: 60%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .message:not(.own) .message-bubble {
+            background: var(--win-card-light);
+            border: 1px solid var(--win-border);
+            border-top-left-radius: 4px;
+        }
+
+        .message.own .message-bubble {
+            background: var(--win-accent);
+            border-top-right-radius: 4px;
+        }
+
+        .message-time {
+            font-size: 10px;
+            color: var(--win-text-secondary);
+            margin-top: 4px;
+            text-align: right;
+        }
+
+        .messenger-input-area {
+            padding: 20px;
+            border-top: 1px solid var(--win-border);
+            display: flex;
+            gap: 10px;
+        }
+
+        .messenger-input {
+            flex: 1;
+            height: 44px;
+            padding: 0 18px;
+            background: var(--win-card-light);
+            border: 1px solid var(--win-border);
+            border-radius: 22px;
+            color: white;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .messenger-input:focus {
+            border-color: var(--win-accent);
+        }
+
+        .messenger-send {
+            width: 44px;
+            height: 44px;
+            background: var(--win-accent);
+            border: none;
+            border-radius: 22px;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .messenger-send:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px var(--win-accent-glow);
+        }
+
+        /* ===== МАГАЗИН ===== */
+        .store-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .store-card {
+            padding: 20px;
+            background: var(--win-card-light);
+            border: 1px solid var(--win-border);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            gap: 15px;
+        }
+
+        .store-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--win-accent);
+            box-shadow: 0 10px 30px var(--win-shadow);
+        }
+
+        .store-icon {
+            font-size: 48px;
+        }
+
+        .store-info {
+            flex: 1;
+        }
+
+        .store-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .store-desc {
+            font-size: 13px;
+            color: var(--win-text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .store-price {
+            display: inline-block;
+            padding: 4px 15px;
+            background: var(--win-accent);
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .store-price.free {
+            background: var(--win-green);
+        }
+
+        /* ===== ГАЛЕРЕЯ ===== */
+        .wallpaper-gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .wallpaper-item {
+            aspect-ratio: 16/9;
+            border-radius: 8px;
+            background-size: cover;
+            background-position: center;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .wallpaper-item:hover {
+            transform: scale(1.05);
+            border-color: var(--win-accent);
+        }
+
+        .wallpaper-item.selected {
+            border-color: var(--win-accent);
+            box-shadow: 0 0 15px var(--win-accent-glow);
+        }
+
+        .wallpaper-checkbox {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 24px;
+            height: 24px;
+            background: var(--win-accent);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            display: none;
+        }
+
+        .wallpaper-item.selected .wallpaper-checkbox {
+            display: flex;
+        }
+
+        .upload-area {
+            grid-column: span 3;
+            border: 2px dashed var(--win-border);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.2s;
+        }
+
+        .upload-area:hover {
+            border-color: var(--win-accent);
+            background: var(--win-accent-soft);
+        }
+
+        .blur-control {
+            margin-top: 20px;
+            padding: 20px;
+            background: var(--win-card-light);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .blur-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .blur-label input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--win-accent);
+        }
+
+        /* ===== КОНТЕКСТНОЕ МЕНЮ ===== */
+        .context-menu {
+            position: fixed;
+            background: var(--win-card);
+            border: 1px solid var(--win-border);
+            border-radius: 8px;
+            padding: 8px 0;
+            min-width: 220px;
+            box-shadow: 0 10px 30px var(--win-shadow-strong);
+            display: none;
+            z-index: 5000;
+        }
+
+        .context-menu.visible {
+            display: block;
+            animation: menuFade 0.2s;
+        }
+
+        @keyframes menuFade {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .context-item {
+            padding: 10px 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.2s;
+            color: var(--win-text);
+        }
+
+        .context-item:hover {
+            background: var(--win-accent);
+            color: white;
+        }
+
+        .context-divider {
+            height: 1px;
+            background: var(--win-border);
+            margin: 8px 0;
+        }
+
+        /* ===== УВЕДОМЛЕНИЯ ===== */
+        .toast {
+            position: fixed;
+            top: 60px;
+            right: 20px;
+            background: var(--win-card);
+            border: 1px solid var(--win-border);
+            border-radius: 8px;
+            padding: 12px 20px;
+            box-shadow: 0 10px 30px var(--win-shadow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 10000;
+            animation: slideIn 0.3s;
+            border-left: 4px solid var(--win-accent);
+        }
+
+        .toast.success { border-left-color: var(--win-green); }
+        .toast.error { border-left-color: var(--win-red); }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0%); opacity: 1; }
+        }
+
+        /* ===== РЕТРО-ОБОИ ===== */
+        .retro-1 { background: linear-gradient(145deg, #2b5a8c, #1e3a5f); }
+        .retro-2 { background: linear-gradient(145deg, #8e44ad, #3498db); }
+        .retro-3 { background: linear-gradient(145deg, #e67e22, #f39c12); }
+        .retro-4 { background: repeating-linear-gradient(45deg, #ff6b6b 0px, #ff6b6b 20px, #4ecdc4 20px, #4ecdc4 40px); }
+        .retro-5 { background: radial-gradient(circle at 30% 30%, #ff9a9e, #fad0c4); }
+        .retro-6 { background: linear-gradient(135deg, #84fab0, #8fd3f4); }
+    </style>
+</head>
+<body>
+    <!-- Экран входа -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-container">
+            <div class="login-logo">🍏</div>
+            <div class="login-title">cocoOS 11</div>
+            <div class="login-box">
+                <div class="user-avatar">👤</div>
+                <div class="user-name">Пользователь</div>
+                <button class="login-button" onclick="cocoOS.login()">Войти</button>
+                <div class="login-hint">Нажмите кнопку "Войти" для входа в систему</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Панель задач -->
+    <div class="windows-taskbar">
+        <button class="start-button" onclick="cocoOS.startMenu.toggle()">🍏</button>
+        
+        <div class="taskbar-search">
+            <span>🔍</span>
+            <input type="text" placeholder="Поиск в Windows" id="globalSearch">
+        </div>
+
+        <div class="taskbar-icons">
+            <div class="taskbar-icon" onclick="cocoOS.apps.open('coconet')">🌐</div>
+            <div class="taskbar-icon" onclick="cocoOS.apps.open('terminal')">💻</div>
+            <div class="taskbar-icon" onclick="cocoOS.apps.open('finder')">📁</div>
+            <div class="taskbar-icon" onclick="cocoOS.apps.open('messenger')">💬</div>
+            <div class="taskbar-icon" onclick="cocoOS.apps.open('store')">🛍️</div>
+            <div class="taskbar-icon" onclick="cocoOS.apps.open('settings')">⚙️</div>
+            <div class="taskbar-icon" onclick="cocoOS.apps.open('gallery')">🖼️</div>
+        </div>
+
+        <div class="taskbar-windows" id="taskbarWindows"></div>
+
+        <div class="system-tray">
+            <div class="tray-item" onclick="cocoOS.notifications.toggle()">🔔</div>
+            <div class="tray-item">🔊</div>
+            <div class="tray-item">🔋 98%</div>
+            <div class="tray-item" id="windowsTime">15:30</div>
+        </div>
+    </div>
+
+    <!-- Рабочий стол -->
+    <div class="desktop" id="desktop" oncontextmenu="cocoOS.contextMenu.show(event)" onmousedown="cocoOS.desktop.startSelection(event)" onmousemove="cocoOS.desktop.updateSelection(event)" onmouseup="cocoOS.desktop.endSelection()">
+        <!-- Размытый слой обоев -->
+        <div class="wallpaper-layer" id="wallpaperLayer"></div>
+        <!-- Основное изображение без размытия -->
+        <div class="main-wallpaper" id="mainWallpaper"></div>
+
+        <!-- Иконки рабочего стола -->
+        <div class="desktop-icons" id="desktopIcons">
+            <div class="desktop-icon" data-id="coconet" ondblclick="cocoOS.apps.open('coconet')">
+                <div class="icon">🌐</div>
+                <div class="label">CocoNet</div>
+            </div>
+            <div class="desktop-icon" data-id="terminal" ondblclick="cocoOS.apps.open('terminal')">
+                <div class="icon">💻</div>
+                <div class="label">Terminal</div>
+            </div>
+            <div class="desktop-icon" data-id="finder" ondblclick="cocoOS.apps.open('finder')">
+                <div class="icon">📁</div>
+                <div class="label">Finder</div>
+            </div>
+            <div class="desktop-icon" data-id="messenger" ondblclick="cocoOS.apps.open('messenger')">
+                <div class="icon">💬</div>
+                <div class="label">Messenger</div>
+            </div>
+            <div class="desktop-icon" data-id="store" ondblclick="cocoOS.apps.open('store')">
+                <div class="icon">🛍️</div>
+                <div class="label">Store</div>
+            </div>
+            <div class="desktop-icon" data-id="settings" ondblclick="cocoOS.apps.open('settings')">
+                <div class="icon">⚙️</div>
+                <div class="label">Settings</div>
+            </div>
+            <div class="desktop-icon" data-id="gallery" ondblclick="cocoOS.apps.open('gallery')">
+                <div class="icon">🖼️</div>
+                <div class="label">Gallery</div>
+            </div>
+            <div class="desktop-icon" data-id="notes" ondblclick="cocoOS.apps.open('notes')">
+                <div class="icon">📝</div>
+                <div class="label">Notes</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Стартовое меню -->
+    <div class="start-menu" id="startMenu">
+        <div class="start-header">
+            <div class="user-avatar">👤</div>
+            <div class="user-info">
+                <div class="user-name">Пользователь</div>
+                <div class="user-email">user@cocoos.com</div>
+            </div>
+        </div>
+        <div class="start-apps">
+            <div class="start-app" onclick="cocoOS.apps.open('coconet')">
+                <div class="start-app-icon">🌐</div>
+                <div class="start-app-name">CocoNet</div>
+            </div>
+            <div class="start-app" onclick="cocoOS.apps.open('terminal')">
+                <div class="start-app-icon">💻</div>
+                <div class="start-app-name">Terminal</div>
+            </div>
+            <div class="start-app" onclick="cocoOS.apps.open('finder')">
+                <div class="start-app-icon">📁</div>
+                <div class="start-app-name">Finder</div>
+            </div>
+            <div class="start-app" onclick="cocoOS.apps.open('messenger')">
+                <div class="start-app-icon">💬</div>
+                <div class="start-app-name">Messenger</div>
+            </div>
+            <div class="start-app" onclick="cocoOS.apps.open('store')">
+                <div class="start-app-icon">🛍️</div>
+                <div class="start-app-name">Store</div>
+            </div>
+            <div class="start-app" onclick="cocoOS.apps.open('settings')">
+                <div class="start-app-icon">⚙️</div>
+                <div class="start-app-name">Settings</div>
+            </div>
+            <div class="start-app" onclick="cocoOS.apps.open('gallery')">
+                <div class="start-app-icon">🖼️</div>
+                <div class="start-app-name">Gallery</div>
+            </div>
+            <div class="start-app" onclick="cocoOS.apps.open('notes')">
+                <div class="start-app-icon">📝</div>
+                <div class="start-app-name">Notes</div>
+            </div>
+            <div class="start-app" onclick="cocoOS.apps.open('calendar')">
+                <div class="start-app-icon">📅</div>
+                <div class="start-app-name">Calendar</div>
+            </div>
+        </div>
+        <div class="start-footer">
+            <button onclick="cocoOS.system.sleep()">💤 Сон</button>
+            <button onclick="cocoOS.system.restart()">🔄 Перезагрузка</button>
+            <button onclick="cocoOS.system.shutdown()">⏻ Выкл</button>
+        </div>
+    </div>
+
+    <!-- Окна приложений -->
+
+    <!-- Браузер CocoNet -->
+    <div class="window" id="coconetWindow">
+        <div class="window-header">
+            <div class="window-title"><span>🌐</span> CocoNet Browser</div>
+            <div class="window-controls">
+                <button class="window-control" onclick="cocoOS.windows.minimize('coconetWindow')">−</button>
+                <button class="window-control" onclick="cocoOS.windows.maximize('coconetWindow')">□</button>
+                <button class="window-control close" onclick="cocoOS.windows.close('coconetWindow')">×</button>
+            </div>
+        </div>
+        <div class="window-content">
+            <div class="browser-toolbar">
+                <button class="browser-btn" onclick="cocoOS.browser.back()">←</button>
+                <button class="browser-btn" onclick="cocoOS.browser.forward()">→</button>
+                <button class="browser-btn" onclick="cocoOS.browser.refresh()">↻</button>
+                <input type="text" class="url-bar" id="browserUrl" value="coco.net">
+                <button class="browser-btn" onclick="cocoOS.browser.go()">↵</button>
+                <button class="browser-btn" onclick="cocoOS.browser.home()">🏠</button>
+            </div>
+            <div class="browser-frame">
+                <iframe id="browserFrame" src="about:blank"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Терминал -->
+    <div class="window" id="terminalWindow">
+        <div class="window-header">
+            <div class="window-title"><span>💻</span> Windows Terminal</div>
+            <div class="window-controls">
+                <button class="window-control" onclick="cocoOS.windows.minimize('terminalWindow')">−</button>
+                <button class="window-control" onclick="cocoOS.windows.maximize('terminalWindow')">□</button>
+                <button class="window-control close" onclick="cocoOS.windows.close('terminalWindow')">×</button>
+            </div>
+        </div>
+        <div class="window-content">
+            <div class="terminal" id="terminal">
+                <div class="terminal-line">Microsoft Windows [Version 10.0.22621.1]</div>
+                <div class="terminal-line">cocoOS Terminal v1.0</div>
+                <div class="terminal-line"> </div>
+                <div id="terminalOutput" class="terminal-line"></div>
+                <div class="terminal-input-line">
+                    <span class="terminal-prompt">C:\Users\cocoOS></span>
+                    <input type="text" class="terminal-input" id="terminalInput" autofocus>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Finder (Файловый менеджер) -->
+    <div class="window" id="finderWindow">
+        <div class="window-header">
+            <div class="window-title"><span>📁</span> File Explorer</div>
+            <div class="window-controls">
+                <button class="window-control" onclick="cocoOS.windows.minimize('finderWindow')">−</button>
+                <button class="window-control" onclick="cocoOS.windows.maximize('finderWindow')">□</button>
+                <button class="window-control close" onclick="cocoOS.windows.close('finderWindow')">×</button>
+            </div>
+        </div>
+        <div class="window-content">
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px;">
+                <div style="text-align: center; padding: 15px; background: var(--win-card-light); border-radius: 8px; cursor: pointer;">
+                    <div style="font-size: 40px;">📁</div>
+                    <div>Документы</div>
+                </div>
+                <div style="text-align: center; padding: 15px; background: var(--win-card-light); border-radius: 8px; cursor: pointer;">
+                    <div style="font-size: 40px;">📥</div>
+                    <div>Загрузки</div>
+                </div>
+                <div style="text-align: center; padding: 15px; background: var(--win-card-light); border-radius: 8px; cursor: pointer;">
+                    <div style="font-size: 40px;">🖼️</div>
+                    <div>Изображения</div>
+                </div>
+                <div style="text-align: center; padding: 15px; background: var(--win-card-light); border-radius: 8px; cursor: pointer;">
+                    <div style="font-size: 40px;">🎵</div>
+                    <div>Музыка</div>
+                </div>
+                <div style="text-align: center; padding: 15px; background: var(--win-card-light); border-radius: 8px; cursor: pointer;">
+                    <div style="font-size: 40px;">📄</div>
+                    <div>README.txt</div>
+                </div>
+                <div style="text-align: center; padding: 15px; background: var(--win-card-light); border-radius: 8px; cursor: pointer;">
+                    <div style="font-size: 40px;">📁</div>
+                    <div>Проекты</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Messenger -->
+    <div class="window" id="messengerWindow">
+        <div class="window-header">
+            <div class="window-title"><span>💬</span> Messenger</div>
+            <div class="window-controls">
+                <button class="window-control" onclick="cocoOS.windows.minimize('messengerWindow')">−</button>
+                <button class="window-control" onclick="cocoOS.windows.maximize('messengerWindow')">□</button>
+                <button class="window-control close" onclick="cocoOS.windows.close('messengerWindow')">×</button>
+            </div>
+        </div>
+        <div class="window-content">
+            <div class="messenger-container">
+                <div class="messenger-messages" id="messengerMessages"></div>
+                <div class="messenger-input-area">
+                    <input type="text" class="messenger-input" id="messengerInput" placeholder="Введите сообщение...">
+                    <button class="messenger-send" onclick="cocoOS.messenger.send()">➤</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Store (Магазин) -->
+    <div class="window" id="storeWindow">
+        <div class="window-header">
+            <div class="window-title"><span>🛍️</span> Microsoft Store</div>
+            <div class="window-controls">
+                <button class="window-control" onclick="cocoOS.windows.minimize('storeWindow')">−</button>
+                <button class="window-control" onclick="cocoOS.windows.maximize('storeWindow')">□</button>
+                <button class="window-control close" onclick="cocoOS.windows.close('storeWindow')">×</button>
+            </div>
+        </div>
+        <div class="window-content">
+            <div class="store-grid">
+                <div class="store-card" onclick="cocoOS.store.install('game')">
+                    <div class="store-icon">🎮</div>
+                    <div class="store-info">
+                        <div class="store-name">Neural Game</div>
+                        <div class="store-desc">Игра с искусственным интеллектом</div>
+                        <span class="store-price free">Бесплатно</span>
+                    </div>
+                </div>
+                <div class="store-card" onclick="cocoOS.store.install('music')">
+                    <div class="store-icon">🎵</div>
+                    <div class="store-info">
+                        <div class="store-name">Music Pro</div>
+                        <div class="store-desc">Профессиональный аудиоплеер</div>
+                        <span class="store-price">299 ₽</span>
+                    </div>
+                </div>
+                <div class="store-card" onclick="cocoOS.store.install('photo')">
+                    <div class="store-icon">📷</div>
+                    <div class="store-info">
+                        <div class="store-name">Photo Editor</div>
+                        <div class="store-desc">Редактор фотографий</div>
+                        <span class="store-price free">Бесплатно</span>
+                    </div>
+                </div>
+                <div class="store-card" onclick="cocoOS.store.install('office')">
+                    <div class="store-icon">📊</div>
+                    <div class="store-info">
+                        <div class="store-name">Office Suite</div>
+                        <div class="store-desc">Офисный пакет</div>
+                        <span class="store-price">499 ₽</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings (Настройки) -->
+    <div class="window" id="settingsWindow">
+        <div class="window-header">
+            <div class="window-title"><span>⚙️</span> Настройки Windows</div>
+            <div class="window-controls">
+                <button class="window-control" onclick="cocoOS.windows.minimize('settingsWindow')">−</button>
+                <button class="window-control" onclick="cocoOS.windows.maximize('settingsWindow')">□</button>
+                <button class="window-control close" onclick="cocoOS.windows.close('settingsWindow')">×</button>
+            </div>
+        </div>
+        <div class="window-content">
+            <div class="settings-container">
+                <div class="settings-sidebar">
+                    <div class="settings-category active" onclick="cocoOS.settings.open('system', this)">⚙️ Система</div>
+                    <div class="settings-category" onclick="cocoOS.settings.open('personalization', this)">🎨 Персонализация</div>
+                    <div class="settings-category" onclick="cocoOS.settings.open('apps', this)">📱 Приложения</div>
+                </div>
+                <div class="settings-content" id="settingsContent">
+                    <!-- Контент будет загружен динамически -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gallery (Галерея) -->
+    <div class="window" id="galleryWindow">
+        <div class="window-header">
+            <div class="window-title"><span>🖼️</span> Галерея обоев</div>
+            <div class="window-controls">
+                <button class="window-control" onclick="cocoOS.windows.minimize('galleryWindow')">−</button>
+                <button class="window-control" onclick="cocoOS.windows.maximize('galleryWindow')">□</button>
+                <button class="window-control close" onclick="cocoOS.windows.close('galleryWindow')">×</button>
+            </div>
+        </div>
+        <div class="window-content">
+            <div class="wallpaper-gallery" id="wallpaperGallery">
+                <div class="wallpaper-item retro-1" onclick="cocoOS.wallpaper.select('retro-1', this)"><div class="wallpaper-checkbox">✓</div></div>
+                <div class="wallpaper-item retro-2" onclick="cocoOS.wallpaper.select('retro-2', this)"><div class="wallpaper-checkbox">✓</div></div>
+                <div class="wallpaper-item retro-3" onclick="cocoOS.wallpaper.select('retro-3', this)"><div class="wallpaper-checkbox">✓</div></div>
+                <div class="wallpaper-item retro-4" onclick="cocoOS.wallpaper.select('retro-4', this)"><div class="wallpaper-checkbox">✓</div></div>
+                <div class="wallpaper-item retro-5" onclick="cocoOS.wallpaper.select('retro-5', this)"><div class="wallpaper-checkbox">✓</div></div>
+                <div class="wallpaper-item retro-6" onclick="cocoOS.wallpaper.select('retro-6', this)"><div class="wallpaper-checkbox">✓</div></div>
+            </div>
+
+            <div class="blur-control">
+                <label class="blur-label">
+                    <input type="checkbox" id="blurCheckbox" onchange="cocoOS.wallpaper.toggleBlur()"> Размыть фон рабочего стола
+                </label>
+            </div>
+
+            <div class="upload-area" onclick="cocoOS.wallpaper.upload()">
+                📤 Загрузить свои обои
+                <input type="file" id="wallpaperUpload" accept="image/*" style="display: none;" onchange="cocoOS.wallpaper.handleUpload(this)">
+            </div>
+        </div>
+    </div>
+
+    <!-- Notes (Блокнот) -->
+    <div class="window" id="notesWindow">
+        <div class="window-header">
+            <div class="window-title"><span>📝</span> Блокнот</div>
+            <div class="window-controls">
+                <button class="window-control" onclick="cocoOS.windows.minimize('notesWindow')">−</button>
+                <button class="window-control" onclick="cocoOS.windows.maximize('notesWindow')">□</button>
+                <button class="window-control close" onclick="cocoOS.windows.close('notesWindow')">×</button>
+            </div>
+        </div>
+        <div class="window-content">
+            <textarea style="width: 100%; height: 100%; padding: 15px; border: none; resize: none; background: transparent; color: white; font-size: 16px; font-family: inherit;" placeholder="Введите текст..."></textarea>
+        </div>
+    </div>
+
+    <!-- Calendar (Календарь) -->
+    <div class="window" id="calendarWindow">
+        <div class="window-header">
+            <div class="window-title"><span>📅</span> Календарь</div>
+            <div class="window-controls">
+                <button class="window-control" onclick="cocoOS.windows.minimize('calendarWindow')">−</button>
+                <button class="window-control" onclick="cocoOS.windows.maximize('calendarWindow')">□</button>
+                <button class="window-control close" onclick="cocoOS.windows.close('calendarWindow')">×</button>
+            </div>
+        </div>
+        <div class="window-content">
+            <div style="text-align: center;">
+                <h2>Март 2026</h2>
+                <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-top: 20px;">
+                    <div>Пн</div><div>Вт</div><div>Ср</div><div>Чт</div><div>Пт</div><div>Сб</div><div>Вс</div>
+                    <div></div><div></div><div></div><div></div><div></div><div>1</div><div>2</div>
+                    <div>3</div><div>4</div><div>5</div><div>6</div><div>7</div><div>8</div><div>9</div>
+                    <div>10</div><div style="background: var(--win-accent); color: white; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;">11</div><div>12</div><div>13</div><div>14</div><div>15</div><div>16</div>
+                    <div>17</div><div>18</div><div>19</div><div>20</div><div>21</div><div>22</div><div>23</div>
+                    <div>24</div><div>25</div><div>26</div><div>27</div><div>28</div><div>29</div><div>30</div>
+                    <div>31</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Контекстное меню -->
+    <div class="context-menu" id="contextMenu"></div>
+
+    <script>
+        // ============================================
+        // cocoOS Windows 11 — ПОЛНОСТЬЮ РАБОЧАЯ ВЕРСИЯ
+        // ============================================
+
+        const cocoOS = {
+            version: '11.0',
+            
+            state: {
+                loggedIn: false,
+                wallpaper: 'retro-1',
+                wallpaperBlurred: false,
+                selectedWallpaper: 'retro-1',
+                windows: [],
+                selectedIcons: [],
+                isSelecting: false,
+                selectionStart: null,
+                messages: [
+                    { id: 1, text: 'Добро пожаловать в Messenger!', time: '10:00', isOwn: false },
+                    { id: 2, text: 'Привет! Как дела?', time: '10:01', isOwn: true },
+                    { id: 3, text: 'Отлично, спасибо! А у тебя?', time: '10:02', isOwn: false },
+                    { id: 4, text: 'Тоже хорошо! Чем занимаешься?', time: '10:03', isOwn: true }
+                ],
+                apps: ['coconet', 'terminal', 'finder', 'messenger', 'store', 'settings', 'gallery', 'notes', 'calendar']
+            },
+
+            // Инициализация системы
+            init: function() {
+                console.log('cocoOS инициализация...');
+                
+                // Устанавливаем начальные обои
+                this.wallpaper.set('retro-1');
+                
+                // Запускаем часы
+                this.time.start();
+                
+                // Инициализируем компоненты
+                this.browser.init();
+                this.terminal.init();
+                this.messenger.render();
+                this.settings.init();
+                
+                // Загружаем настройки из localStorage
+                this.loadSettings();
+                
+                console.log('cocoOS готова к работе');
+            },
+
+            // Загрузка настроек
+            loadSettings: function() {
+                try {
+                    const saved = localStorage.getItem('cocoOS_settings');
+                    if (saved) {
+                        const settings = JSON.parse(saved);
+                        this.state.wallpaper = settings.wallpaper || 'retro-1';
+                        this.state.wallpaperBlurred = settings.wallpaperBlurred || false;
+                        
+                        // Применяем настройки
+                        this.wallpaper.set(this.state.wallpaper);
+                        if (this.state.wallpaperBlurred) {
+                            document.getElementById('wallpaperLayer').classList.add('blurred');
+                            document.getElementById('blurCheckbox').checked = true;
+                        }
+                    }
+                } catch(e) {
+                    console.log('Ошибка загрузки настроек', e);
+                }
+            },
+
+            // Сохранение настроек
+            saveSettings: function() {
+                try {
+                    const settings = {
+                        wallpaper: this.state.wallpaper,
+                        wallpaperBlurred: this.state.wallpaperBlurred
+                    };
+                    localStorage.setItem('cocoOS_settings', JSON.stringify(settings));
+                } catch(e) {
+                    console.log('Ошибка сохранения настроек', e);
+                }
+            },
+
+            // Часы
+            time: {
+                start: function() {
+                    this.update();
+                    setInterval(() => this.update(), 1000);
+                },
+                update: function() {
+                    const now = new Date();
+                    document.getElementById('windowsTime').textContent = 
+                        now.toLocaleTimeString('ru-RU', {hour: '2-digit', minute: '2-digit'});
+                }
+            },
+
+            // Вход в систему (ИСПРАВЛЕНО)
+            login: function() {
+                document.getElementById('loginScreen').classList.add('hidden');
+                this.state.loggedIn = true;
+                this.notifications.show('Добро пожаловать в cocoOS!', 'success');
+            },
+
+            // Управление окнами
+            windows: {
+                open: function(id) {
+                    if (!cocoOS.state.loggedIn) {
+                        cocoOS.notifications.show('Сначала войдите в систему', 'info');
+                        return;
+                    }
+                    
+                    const win = document.getElementById(id);
+                    if (win) {
+                        win.classList.add('active');
+                        win.style.zIndex = this.getNextZIndex();
+                        this.addToTaskbar(id);
+                        
+                        // Активируем перетаскивание
+                        this.makeDraggable(win);
+                    }
+                },
+                close: function(id) {
+                    document.getElementById(id).classList.remove('active');
+                    this.removeFromTaskbar(id);
+                },
+                minimize: function(id) {
+                    document.getElementById(id).classList.remove('active');
+                    this.removeFromTaskbar(id);
+                },
+                maximize: function(id) {
+                    document.getElementById(id).classList.toggle('maximized');
+                },
+                getNextZIndex: function() {
+                    let max = 1000;
+                    document.querySelectorAll('.window.active').forEach(w => {
+                        const z = parseInt(w.style.zIndex) || 1000;
+                        if (z > max) max = z;
+                    });
+                    return max + 1;
+                },
+                addToTaskbar: function(id) {
+                    const taskbar = document.getElementById('taskbarWindows');
+                    const win = document.getElementById(id);
+                    const title = win.querySelector('.window-title span:last-child').textContent;
+                    const icon = win.querySelector('.window-title span:first-child').textContent;
+                    
+                    // Удаляем если уже есть
+                    const existing = document.getElementById(`taskbar-${id}`);
+                    if (existing) existing.remove();
+                    
+                    const item = document.createElement('div');
+                    item.className = 'taskbar-window active';
+                    item.id = `taskbar-${id}`;
+                    item.innerHTML = `<span>${icon}</span> <span>${title}</span>`;
+                    item.onclick = () => cocoOS.windows.focus(id);
+                    taskbar.appendChild(item);
+                },
+                removeFromTaskbar: function(id) {
+                    const item = document.getElementById(`taskbar-${id}`);
+                    if (item) item.remove();
+                },
+                focus: function(id) {
+                    document.getElementById(id).style.zIndex = this.getNextZIndex();
+                },
+                makeDraggable: function(win) {
+                    const header = win.querySelector('.window-header');
+                    let isDragging = false;
+                    let offsetX, offsetY;
+                    
+                    header.addEventListener('mousedown', (e) => {
+                        if (e.target.classList.contains('window-control')) return;
+                        
+                        isDragging = true;
+                        offsetX = e.clientX - win.offsetLeft;
+                        offsetY = e.clientY - win.offsetTop;
+                        
+                        win.style.zIndex = cocoOS.windows.getNextZIndex();
+                        e.preventDefault();
+                    });
+                    
+                    document.addEventListener('mousemove', (e) => {
+                        if (!isDragging) return;
+                        
+                        const x = e.clientX - offsetX;
+                        const y = e.clientY - offsetY;
+                        
+                        win.style.left = Math.max(0, Math.min(x, window.innerWidth - win.offsetWidth)) + 'px';
+                        win.style.top = Math.max(0, Math.min(y, window.innerHeight - win.offsetHeight - 48)) + 'px';
+                    });
+                    
+                    document.addEventListener('mouseup', () => {
+                        isDragging = false;
+                    });
+                }
+            },
+
+            // Приложения
+            apps: {
+                open: function(appId) {
+                    const windows = {
+                        coconet: 'coconetWindow',
+                        terminal: 'terminalWindow',
+                        finder: 'finderWindow',
+                        messenger: 'messengerWindow',
+                        store: 'storeWindow',
+                        settings: 'settingsWindow',
+                        gallery: 'galleryWindow',
+                        notes: 'notesWindow',
+                        calendar: 'calendarWindow'
+                    };
+                    
+                    const winId = windows[appId];
+                    if (winId) cocoOS.windows.open(winId);
+                }
+            },
+
+            // Браузер CocoNet
+            browser: {
+                init: function() {
+                    this.urlInput = document.getElementById('browserUrl');
+                    this.frame = document.getElementById('browserFrame');
+                    
+                    // Загружаем стартовую страницу CocoNet
+                    this.loadCocoNetHome();
+                },
+                
+                // Загрузка домашней страницы CocoNet
+                loadCocoNetHome: function() {
+                    const homePage = `
+                        <!DOCTYPE html>
+                        <html>
+                        <head>
+                            <title>CocoNet — ваш браузер</title>
+                            <style>
+                                body {
+                                    margin: 0;
+                                    padding: 0;
+                                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                                    height: 100vh;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    color: white;
+                                }
+                                .container {
+                                    text-align: center;
+                                    padding: 40px;
+                                    background: rgba(255,255,255,0.1);
+                                    backdrop-filter: blur(10px);
+                                    border-radius: 20px;
+                                    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+                                }
+                                h1 {
+                                    font-size: 64px;
+                                    margin-bottom: 20px;
+                                    text-shadow: 0 5px 15px rgba(0,0,0,0.3);
+                                }
+                                p {
+                                    font-size: 18px;
+                                    margin-bottom: 30px;
+                                    opacity: 0.9;
+                                }
+                                .search-box {
+                                    display: flex;
+                                    gap: 10px;
+                                    max-width: 600px;
+                                    margin: 0 auto;
+                                }
+                                .search-input {
+                                    flex: 1;
+                                    padding: 15px 20px;
+                                    border: none;
+                                    border-radius: 30px;
+                                    font-size: 16px;
+                                    outline: none;
+                                }
+                                .search-button {
+                                    padding: 15px 30px;
+                                    border: none;
+                                    border-radius: 30px;
+                                    background: #0078d4;
+                                    color: white;
+                                    font-size: 16px;
+                                    font-weight: 600;
+                                    cursor: pointer;
+                                    transition: all 0.2s;
+                                }
+                                .search-button:hover {
+                                    background: #106ebe;
+                                    transform: scale(1.05);
+                                }
+                                .links {
+                                    margin-top: 40px;
+                                    display: flex;
+                                    gap: 20px;
+                                    justify-content: center;
+                                }
+                                .link {
+                                    color: white;
+                                    text-decoration: none;
+                                    padding: 10px 20px;
+                                    background: rgba(255,255,255,0.2);
+                                    border-radius: 20px;
+                                    transition: all 0.2s;
+                                }
+                                .link:hover {
+                                    background: rgba(255,255,255,0.3);
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            <div class="container">
+                                <h1>🌐 CocoNet</h1>
+                                <p>Ваш безопасный и быстрый браузер</p>
+                                <div class="search-box">
+                                    <input type="text" class="search-input" id="cocoSearch" placeholder="Поиск в CocoNet...">
+                                    <button class="search-button" onclick="search()">Поиск</button>
+                                </div>
+                                <div class="links">
+                                    <a href="#" class="link" onclick="parent.cocoOS.browser.goToUrl('https://google.com')">Google</a>
+                                    <a href="#" class="link" onclick="parent.cocoOS.browser.goToUrl('https://youtube.com')">YouTube</a>
+                                    <a href="#" class="link" onclick="parent.cocoOS.browser.goToUrl('https://github.com')">GitHub</a>
+                                    <a href="#" class="link" onclick="parent.cocoOS.browser.goToUrl('https://wikipedia.org')">Wikipedia</a>
+                                </div>
+                            </div>
+                            <script>
+                                function search() {
+                                    const query = document.getElementById('cocoSearch').value;
+                                    if (query) {
+                                        parent.cocoOS.browser.search(query);
+                                    }
+                                }
+                            <\/script>
+                        </body>
+                        </html>
+                    `;
+                    
+                    const blob = new Blob([homePage], {type: 'text/html'});
+                    this.frame.src = URL.createObjectURL(blob);
+                    this.urlInput.value = 'coco.net';
+                },
+                
+                go: function() {
+                    let url = this.urlInput.value.trim();
+                    if (!url) return;
+                    
+                    if (url === 'coco.net' || url === 'coco.net/') {
+                        this.loadCocoNetHome();
+                        return;
+                    }
+                    
+                    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                        if (url.includes('.') && !url.includes(' ')) {
+                            url = 'https://' + url;
+                        } else {
+                            this.search(url);
+                            return;
+                        }
+                    }
+                    this.frame.src = url;
+                },
+                
+                search: function(query) {
+                    // Используем поиск через Google, но показываем как поиск CocoNet
+                    this.frame.src = 'https://www.google.com/search?q=' + encodeURIComponent(query);
+                    this.urlInput.value = query;
+                },
+                
+                goToUrl: function(url) {
+                    this.frame.src = url;
+                    this.urlInput.value = url;
+                },
+                
+                back: function() { 
+                    try { this.frame.contentWindow.history.back(); } catch(e) {} 
+                },
+                
+                forward: function() { 
+                    try { this.frame.contentWindow.history.forward(); } catch(e) {} 
+                },
+                
+                refresh: function() { 
+                    this.frame.src = this.frame.src; 
+                },
+                
+                home: function() {
+                    this.loadCocoNetHome();
+                    this.urlInput.value = 'coco.net';
+                }
+            },
+
+            // Терминал
+            terminal: {
+                init: function() {
+                    this.input = document.getElementById('terminalInput');
+                    this.output = document.getElementById('terminalOutput');
+                    
+                    if (this.input) {
+                        this.input.addEventListener('keypress', (e) => {
+                            if (e.key === 'Enter') {
+                                this.execute(this.input.value);
+                                this.input.value = '';
+                            }
+                        });
+                    }
+                    
+                    this.print('Microsoft Windows [Version 10.0.22621.1]');
+                    this.print('cocoOS Terminal v1.0');
+                    this.print('Введите help для списка команд');
+                },
+                execute: function(cmd) {
+                    this.print(`C:\\Users>${cmd}`);
+                    
+                    const args = cmd.trim().split(' ');
+                    const command = args[0].toLowerCase();
+                    
+                    switch(command) {
+                        case 'help':
+                            this.print('help - помощь');
+                            this.print('clear - очистить экран');
+                            this.print('time - текущее время');
+                            this.print('date - текущая дата');
+                            this.print('whoami - имя пользователя');
+                            this.print('dir - список файлов');
+                            this.print('echo [текст] - вывести текст');
+                            this.print('calc - открыть калькулятор');
+                            this.print('notepad - открыть блокнот');
+                            break;
+                            
+                        case 'clear':
+                            this.output.innerHTML = '';
+                            break;
+                            
+                        case 'time':
+                            this.print(new Date().toLocaleTimeString());
+                            break;
+                            
+                        case 'date':
+                            this.print(new Date().toLocaleDateString());
+                            break;
+                            
+                        case 'whoami':
+                            this.print('cocoOS\\Пользователь');
+                            break;
+                            
+                        case 'dir':
+                            this.print(' Диск C:');
+                            this.print('   📁 Windows');
+                            this.print('   📁 Program Files');
+                            this.print('   📁 Users');
+                            this.print('   📁 cocoOS');
+                            this.print('   📄 README.txt');
+                            this.print('   📄 config.json');
+                            break;
+                            
+                        case 'echo':
+                            this.print(args.slice(1).join(' ') || '');
+                            break;
+                            
+                        case 'calc':
+                            cocoOS.apps.open('calculator');
+                            this.print('Калькулятор открыт');
+                            break;
+                            
+                        case 'notepad':
+                            cocoOS.apps.open('notes');
+                            this.print('Блокнот открыт');
+                            break;
+                            
+                        default:
+                            if (cmd.trim() !== '') {
+                                this.print(`'${cmd}' не является внутренней или внешней командой`);
+                            }
+                    }
+                },
+                print: function(text) {
+                    const line = document.createElement('div');
+                    line.className = 'terminal-line';
+                    line.textContent = text;
+                    this.output.appendChild(line);
+                    this.output.scrollTop = this.output.scrollHeight;
+                }
+            },
+
+            // Messenger
+            messenger: {
+                render: function() {
+                    const container = document.getElementById('messengerMessages');
+                    if (!container) return;
+                    
+                    let html = '';
+                    cocoOS.state.messages.forEach(msg => {
+                        html += `
+                            <div class="message ${msg.isOwn ? 'own' : ''}">
+                                <div class="message-bubble">
+                                    <div>${msg.text}</div>
+                                    <div class="message-time">${msg.time}</div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    container.innerHTML = html;
+                    container.scrollTop = container.scrollHeight;
+                },
+                send: function() {
+                    const input = document.getElementById('messengerInput');
+                    const text = input.value.trim();
+                    if (!text) return;
+                    
+                    const msg = {
+                        id: Date.now(),
+                        text: text,
+                        time: new Date().toLocaleTimeString('ru-RU', {hour: '2-digit', minute:'2-digit'}),
+                        isOwn: true
+                    };
+                    
+                    cocoOS.state.messages.push(msg);
+                    this.render();
+                    input.value = '';
+                    
+                    // Имитация ответа
+                    setTimeout(() => {
+                        const replies = [
+                            'Интересно!',
+                            'Понял, спасибо!',
+                            'Отлично!',
+                            'Хорошо!',
+                            'Да, согласен!'
+                        ];
+                        const reply = {
+                            id: Date.now() + 1,
+                            text: replies[Math.floor(Math.random() * replies.length)],
+                            time: new Date().toLocaleTimeString('ru-RU', {hour: '2-digit', minute:'2-digit'}),
+                            isOwn: false
+                        };
+                        cocoOS.state.messages.push(reply);
+                        this.render();
+                        cocoOS.notifications.show('Новое сообщение', 'info');
+                    }, 1500);
+                }
+            },
+
+            // Store (Магазин)
+            store: {
+                install: function(appId) {
+                    const apps = {
+                        game: 'Neural Game',
+                        music: 'Music Pro',
+                        photo: 'Photo Editor',
+                        office: 'Office Suite'
+                    };
+                    
+                    const appName = apps[appId] || appId;
+                    cocoOS.notifications.show(`✅ ${appName} установлено`, 'success');
+                    
+                    // Добавляем иконку на рабочий стол
+                    if (!cocoOS.state.apps.includes(appId)) {
+                        cocoOS.state.apps.push(appId);
+                    }
+                }
+            },
+
+            // Настройки
+            settings: {
+                init: function() {
+                    // Загружаем начальную категорию
+                    setTimeout(() => {
+                        const activeCat = document.querySelector('.settings-category.active');
+                        if (activeCat) {
+                            this.open('system', activeCat);
+                        }
+                    }, 500);
+                },
+                
+                open: function(category, element) {
+                    // Обновляем активный класс
+                    document.querySelectorAll('.settings-category').forEach(c => c.classList.remove('active'));
+                    element.classList.add('active');
+                    
+                    const content = document.getElementById('settingsContent');
+                    
+                    if (category === 'system') {
+                        content.innerHTML = `
+                            <div class="settings-group">
+                                <div class="settings-title">Дисплей</div>
+                                <div class="settings-item">
+                                    <span>Ночной свет</span>
+                                    <div class="toggle-switch" onclick="this.classList.toggle('active')"></div>
+                                </div>
+                                <div class="settings-item">
+                                    <span>Яркость</span>
+                                    <div class="slider"><div class="slider-fill" style="width:70%"></div></div>
+                                </div>
+                                <div class="settings-item">
+                                    <span>Масштаб</span>
+                                    <span>100%</span>
+                                </div>
+                            </div>
+                            <div class="settings-group">
+                                <div class="settings-title">Звук</div>
+                                <div class="settings-item">
+                                    <span>Громкость</span>
+                                    <div class="slider"><div class="slider-fill" style="width:50%"></div></div>
+                                </div>
+                                <div class="settings-item">
+                                    <span>Уведомления</span>
+                                    <div class="toggle-switch active" onclick="this.classList.toggle('active')"></div>
+                                </div>
+                                <div class="settings-item">
+                                    <span>Звуки системы</span>
+                                    <div class="toggle-switch active" onclick="this.classList.toggle('active')"></div>
+                                </div>
+                            </div>
+                        `;
+                    } else if (category === 'personalization') {
+                        content.innerHTML = `
+                            <div class="settings-group">
+                                <div class="settings-title">Персонализация</div>
+                                <div class="settings-item">
+                                    <span>Тема оформления</span>
+                                    <select style="background:var(--win-card); color:white; padding:5px; border-radius:5px;">
+                                        <option>Темная</option>
+                                        <option>Светлая</option>
+                                        <option>Системная</option>
+                                    </select>
+                                </div>
+                                <div class="settings-item">
+                                    <span>Цвет акцента</span>
+                                    <input type="color" value="#0078d4" style="width:50px; height:30px;">
+                                </div>
+                                <div class="settings-item">
+                                    <span>Обои рабочего стола</span>
+                                    <button class="browser-btn" style="width:auto; padding:0 20px;" onclick="cocoOS.apps.open('gallery')">Изменить</button>
+                                </div>
+                                <div class="settings-item">
+                                    <span>Размытие фона</span>
+                                    <div class="toggle-switch ${cocoOS.state.wallpaperBlurred ? 'active' : ''}" onclick="cocoOS.wallpaper.toggleBlur(); this.classList.toggle('active');"></div>
+                                </div>
+                            </div>
+                        `;
+                    } else if (category === 'apps') {
+                        content.innerHTML = `
+                            <div class="settings-group">
+                                <div class="settings-title">Приложения</div>
+                                <div class="settings-item">
+                                    <span>CocoNet Browser</span>
+                                    <span>v1.0</span>
+                                </div>
+                                <div class="settings-item">
+                                    <span>Windows Terminal</span>
+                                    <span>v1.0</span>
+                                </div>
+                                <div class="settings-item">
+                                    <span>File Explorer</span>
+                                    <span>v1.0</span>
+                                </div>
+                                <div class="settings-item">
+                                    <span>Messenger</span>
+                                    <span>v1.0</span>
+                                </div>
+                                <div class="settings-item">
+                                    <span>Microsoft Store</span>
+                                    <span>v1.0</span>
+                                </div>
+                                <div class="settings-item">
+                                    <span>Photo Gallery</span>
+                                    <span>v1.0</span>
+                                </div>
+                            </div>
+                        `;
+                    }
+                }
+            },
+
+            // Обои
+            wallpaper: {
+                set: function(name, element) {
+                    const layer = document.getElementById('wallpaperLayer');
+                    const main = document.getElementById('mainWallpaper');
+                    
+                    // Убираем фоновые изображения
+                    layer.style.backgroundImage = '';
+                    main.style.backgroundImage = '';
+                    
+                    // Применяем класс
+                    layer.className = 'wallpaper-layer ' + name;
+                    main.className = 'main-wallpaper ' + name;
+                    
+                    this.state.wallpaper = name;
+                    this.state.selectedWallpaper = name;
+                    
+                    // Обновляем выделение в галерее
+                    document.querySelectorAll('.wallpaper-item').forEach(item => {
+                        item.classList.remove('selected');
+                    });
+                    
+                    if (element) {
+                        element.classList.add('selected');
+                    } else {
+                        // Ищем элемент по классу
+                        const items = document.querySelectorAll('.wallpaper-item');
+                        for (let item of items) {
+                            if (item.classList.contains(name)) {
+                                item.classList.add('selected');
+                                break;
+                            }
+                        }
+                    }
+                    
+                    cocoOS.notifications.show('Обои установлены', 'success');
+                    cocoOS.saveSettings();
+                },
+                
+                select: function(name, element) {
+                    this.set(name, element);
+                },
+                
+                toggleBlur: function() {
+                    const layer = document.getElementById('wallpaperLayer');
+                    const checkbox = document.getElementById('blurCheckbox');
+                    
+                    this.state.wallpaperBlurred = !this.state.wallpaperBlurred;
+                    
+                    if (this.state.wallpaperBlurred) {
+                        layer.classList.add('blurred');
+                        if (checkbox) checkbox.checked = true;
+                    } else {
+                        layer.classList.remove('blurred');
+                        if (checkbox) checkbox.checked = false;
+                    }
+                    
+                    cocoOS.notifications.show(`Размытие ${this.state.wallpaperBlurred ? 'включено' : 'выключено'}`, 'success');
+                    cocoOS.saveSettings();
+                },
+                
+                upload: function() {
+                    document.getElementById('wallpaperUpload').click();
+                },
+                
+                handleUpload: function(input) {
+                    if (input.files && input.files[0]) {
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            const url = e.target.result;
+                            const layer = document.getElementById('wallpaperLayer');
+                            const main = document.getElementById('mainWallpaper');
+                            
+                            // Убираем классы
+                            layer.className = 'wallpaper-layer';
+                            main.className = 'main-wallpaper';
+                            
+                            // Устанавливаем изображение
+                            layer.style.backgroundImage = `url(${url})`;
+                            main.style.backgroundImage = `url(${url})`;
+                            layer.style.backgroundSize = 'cover';
+                            main.style.backgroundSize = 'contain';
+                            
+                            // Снимаем выделение с ретро-обоев
+                            document.querySelectorAll('.wallpaper-item').forEach(item => {
+                                item.classList.remove('selected');
+                            });
+                            
+                            this.state.wallpaper = 'custom';
+                            cocoOS.notifications.show('Обои загружены', 'success');
+                            cocoOS.saveSettings();
+                        };
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                }
+            },
+
+            // Рабочий стол (выделение)
+            desktop: {
+                startSelection: function(e) {
+                    if (!cocoOS.state.loggedIn) return;
+                    
+                    if (e.target.classList.contains('desktop') || 
+                        e.target.classList.contains('wallpaper-layer') || 
+                        e.target.classList.contains('main-wallpaper')) {
+                        
+                        this.isSelecting = true;
+                        this.selectionStart = { x: e.clientX, y: e.clientY };
+                        
+                        // Удаляем старый прямоугольник
+                        const oldRect = document.getElementById('selectionRect');
+                        if (oldRect) oldRect.remove();
+                        
+                        // Создаем прямоугольник выделения
+                        const rect = document.createElement('div');
+                        rect.id = 'selectionRect';
+                        document.body.appendChild(rect);
+                    }
+                },
+                
+                updateSelection: function(e) {
+                    if (!this.isSelecting) return;
+                    
+                    const rect = document.getElementById('selectionRect');
+                    if (!rect) return;
+                    
+                    const start = this.selectionStart;
+                    const left = Math.min(start.x, e.clientX);
+                    const top = Math.min(start.y, e.clientY);
+                    const width = Math.abs(e.clientX - start.x);
+                    const height = Math.abs(e.clientY - start.y);
+                    
+                    rect.style.left = left + 'px';
+                    rect.style.top = top + 'px';
+                    rect.style.width = width + 'px';
+                    rect.style.height = height + 'px';
+                    
+                    // Очищаем выделение
+                    this.selectedIcons = [];
+                    document.querySelectorAll('.desktop-icon').forEach(icon => {
+                        icon.classList.remove('selected');
+                    });
+                    
+                    // Выделяем иконки в области
+                    if (width > 10 && height > 10) {
+                        document.querySelectorAll('.desktop-icon').forEach(icon => {
+                            const iconRect = icon.getBoundingClientRect();
+                            const overlap = !(iconRect.right < left || 
+                                             iconRect.left > left + width || 
+                                             iconRect.bottom < top || 
+                                             iconRect.top > top + height);
+                            
+                            if (overlap) {
+                                icon.classList.add('selected');
+                                this.selectedIcons.push(icon.dataset.id);
+                            }
+                        });
+                    }
+                },
+                
+                endSelection: function() {
+                    this.isSelecting = false;
+                    const rect = document.getElementById('selectionRect');
+                    if (rect) rect.remove();
+                }
+            },
+
+            // Стартовое меню
+            startMenu: {
+                toggle: function() {
+                    document.getElementById('startMenu').classList.toggle('visible');
+                }
+            },
+
+            // Контекстное меню
+            contextMenu: {
+                show: function(e) {
+                    e.preventDefault();
+                    
+                    if (!cocoOS.state.loggedIn) return;
+                    
+                    const menu = document.getElementById('contextMenu');
+                    menu.innerHTML = `
+                        <div class="context-item" onclick="cocoOS.wallpaper.upload()">📤 Загрузить обои</div>
+                        <div class="context-item" onclick="cocoOS.desktop.refresh()">🔄 Обновить</div>
+                        <div class="context-divider"></div>
+                        <div class="context-item" onclick="cocoOS.apps.open('settings')">⚙️ Персонализация</div>
+                        <div class="context-item" onclick="cocoOS.apps.open('gallery')">🖼️ Галерея</div>
+                    `;
+                    
+                    menu.style.left = e.pageX + 'px';
+                    menu.style.top = e.pageY + 'px';
+                    menu.classList.add('visible');
+                    
+                    setTimeout(() => {
+                        document.addEventListener('click', () => {
+                            menu.classList.remove('visible');
+                        }, { once: true });
+                    }, 0);
+                }
+            },
+
+            // Уведомления
+            notifications: {
+                show: function(message, type = 'info') {
+                    const toast = document.createElement('div');
+                    toast.className = `toast ${type}`;
+                    toast.innerHTML = `
+                        <span>${type === 'success' ? '✅' : 'ℹ️'}</span>
+                        <span>${message}</span>
+                    `;
+                    
+                    document.body.appendChild(toast);
+                    
+                    setTimeout(() => {
+                        toast.remove();
+                    }, 3000);
+                },
+                
+                toggle: function() {
+                    this.show('Центр уведомлений Windows', 'info');
+                }
+            },
+
+            // Системные функции
+            system: {
+                sleep: function() {
+                    document.body.style.filter = 'brightness(0.5)';
+                    setTimeout(() => {
+                        document.body.style.filter = '';
+                    }, 2000);
+                    cocoOS.startMenu.toggle();
+                },
+                
+                restart: function() {
+                    if (confirm('Перезагрузить систему?')) {
+                        location.reload();
+                    }
+                },
+                
+                shutdown: function() {
+                    if (confirm('Выключить компьютер?')) {
+                        document.body.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100vh; background: #000; color: #fff; font-size: 48px;">⏻</div>';
+                    }
+                }
+            }
+        };
+
+        // Запуск при загрузке страницы
+        window.onload = function() {
+            cocoOS.init();
+        };
+
+        // Обработка загрузки файлов
+        document.addEventListener('change', function(e) {
+            if (e.target.id === 'wallpaperUpload') {
+                cocoOS.wallpaper.handleUpload(e.target);
+            }
+        });
+
+        // Предотвращаем стандартное контекстное меню
+        document.addEventListener('contextmenu', (e) => {
+            if (e.target.closest('.desktop')) {
+                e.preventDefault();
+            }
+        });
+
+        // Логирование
+        console.log('cocoOS Windows 11 — полностью рабочая версия с CocoNet браузером');
+    </script>
+</body>
+</html> 
